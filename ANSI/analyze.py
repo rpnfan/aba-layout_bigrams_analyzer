@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import copy
 from pathlib import Path
 from typing import Tuple
@@ -29,7 +30,7 @@ lspm - Lateral Stretch (Pinky-Middle)
 rpm - Roll (Pinky-Middle)
 ropr - Roll-Out (Pinky-Ring)
 """
-
+RPM_DIFF: int = 0
 LANGUAGES_LIST = ["en", "ru"]
 
 STD = "std"
@@ -39,9 +40,9 @@ ANALYZE_MODE = [STD, ANG]
 ALT = "alt"
 NOT_FOUND = "NF"
 EFFORTS_LIST = [
-    ("-3", "-3", 4.0, 1.0),
-    ("-2", "-2", 2.0, 3.0),
-    ("-1", "-1", 1.0, 6.0),
+    ("-3", "-3", 4.0, 0.9),
+    ("-2", "-2", 2.0, 1.5),
+    ("-1", "-1", 1.0, 7.0),
     ("0", "0", 0.0, None),
     ("1", "1", 0.0, None),
     ("2", "2", 0.0, None),
@@ -52,10 +53,10 @@ EFFORTS_LIST = [
 """
 EFFORTS_LIST = [
     ("-5", "-5", 4.0, 0.5),
-    ("-4", "-4", 2.8, 1.0),
-    ("-3", "-3", 2.0, 1.7),
-    ("-2", "-2", 1.4, 2.8),
-    ("-1", "-1", 1.0, 4.0),
+    ("-4", "-4", 2.8, 0.8),
+    ("-3", "-3", 2.0, 1.0),
+    ("-2", "-2", 1.4, 2.5),
+    ("-1", "-1", 1.0, 4.5),
     ("0", "0", 0.0, None),
     ("1", "1", 0.0, None),
     ("2", "2", 0.0, None),
@@ -422,6 +423,28 @@ def get_warning(value: float, red_flag: float, param_lbl: str) -> str:
             warn = sign if ratio < 2 else str(ratio) + sign
     return warn
 
+def get_efforts_max() -> int:
+    val = abs(int(EFFORTS_LIST[0][1]))
+    return val
+
+def change_rpm_by(change: int, l, l_t, la, la_t, r, r_t):
+    msg = "Cannot change efforts for Pinky-Middle Rolls (OUT OF RANGE!)"
+    efforts_max: int = get_efforts_max()
+    matrix_list = [(l, l_t), (la, la_t), (r, r_t)]
+    for matrix, matrix_t in matrix_list: 
+        for i, line in enumerate(matrix_t):
+            for j, bg_type in enumerate(line):
+                if bg_type == "rpm":    
+                    if -efforts_max < int(matrix[i][j]) + change < efforts_max:
+                        matrix[i][j] = str(int(matrix[i][j]) + change)
+                    else:
+                        sys.exit(msg)
+
+def matrix_to_file(f_path: Path, matrix: list[list]):
+    with open(f_path, "w", encoding="utf-8") as file:
+        for line in matrix:
+            file.write(" ".join(f"{item:>2}" for item in line) + "\n")
+                    
 
 def main():
     project_path = Path(__file__).resolve().parent
@@ -431,6 +454,18 @@ def main():
     left_angle_types: list[list[str]]= read_data(project_path / "left_angle_types")
     right_efforts: list[list[str]]= read_data(project_path / "right")
     right_types: list[list[str]]= read_data(project_path / "right_types")
+    change_rpm_by(
+        RPM_DIFF,
+        left_std_efforts,
+        left_std_types,
+        left_angle_efforts,
+        left_angle_types,
+        right_efforts,
+        right_types
+    )
+    #matrix_to_file(project_path / "left_trans", left_std_efforts)
+    #matrix_to_file(project_path / "left_angle_trans", left_angle_efforts)
+    #matrix_to_file(project_path / "right_trans", right_efforts)
 
     res_by_effort: Tuple[list, dict]
     res_by_type: Tuple[list, dict]
