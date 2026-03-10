@@ -1,22 +1,5 @@
 std ang
-qwertasdfgzxcvb
-yuiop[]hjkl;'nm,./
+q w e r t  y u i o p [ ]
+a s d f g  h j k l ; '
+ z x c v b  n m , . /
 
-
-Just INFO(Not for Analyzer):
-
-LEFT ARM
-
-| q | w | e | r | t |
- -----------------
- | a | s | d | f | g |
- -----------------
-   | z | x | c | v | b |
-
-RIGHT ARM
-
-| y | u | i | o | p | [ | ] |
-     -----------------
- | h | j | k | l | ; | ' |
-     -----------------
-   | n | m | , | . | / |

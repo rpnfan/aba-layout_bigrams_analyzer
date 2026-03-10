@@ -13,6 +13,46 @@ When choosing a layout, I proceed as follows: first, I select layouts that meet 
 
 I run the remaining layouts through my analyzer, which creates a comparison table. Since comfort is important to me, I choose the layouts with the fewest awkward combinations. If there are several such layouts, I look at the comfortable combinations and choose the one with the most.
 
+## What's new in version 2.0
+
+### 1. Added classification of bigrams by their type (PRS, SFB, LSB, etc.).
+Here's a comparison table of layouts by bigram type:
+
+![compare_by_bg_type](./ANSI/img/compare_bg_type.png)
+- **PRS** – Pinky/Ring Scissors (Half and Full)
+- **FS(bad)** – Full Scissors (only Bad). Good Scissors (Index on buttom row) not included
+- **WS(bad)** – Wide Scissors (only Bad)
+- **HS(bad)** – Half-Scissors (only Bad). For example `wd`, `dw`, `sc` on Qwerty
+- **SFB(P)** – SFB on Pinkies
+- **SFB** – All SFB (SFB(0u) included))
+- **SFB(3u)** – For example `br`, `my` on Qwerty
+- **LSB(IM)** – LSB on Index/Middle. Qwerty `nk` – not LSB on ANSI keyboard. Qwerty `ve` – LSB on Standart and Angle Mode
+- **LSB(IR)** – LSB on Index/ Ring. Qwerty `nl` – not LSB on ANSI keyboard. Qwerty `vw` – LSB on Standart and Angle Mode
+- **LSB(IP)** – LSBs that require simultaneous stretching of the little finger and index finger. For example `ba`, `ab` on Qwerty
+- **LSB(P)** - LSB Pinky/Ring + LSB Pinky/Middle
+- **R(P-M)** – Rolls Pinky/Middle
+- **R(R→P)** – Roll-out Ring→Pinky
+- **Sort By** = sum(k*value)
+
+If a value exceeds a certain **threshold**, a `!` appears next to the value. The `number before` the `!` indicates how many times the threshold is exceeded.
+
+### 2. A table has been added for comparing layouts based on the number of bigrams on one hand.
+
+<img src="./ANSI/img/compare_hand_usage.png" width="400">
+
+### 3. Added breakdown of SFB (SFB(0u) included) by fingers
+
+<img src="./ANSI/img/compare_sfb.png" width="600">
+
+### 4. The full layout report now looks like this:
+
+https://github.com/mohoaz1348-rgb/layout_bigrams_analyzer/blob/main/ANSI/en/results_all/qwerty(std)
+
+### 5. New layouts added
+### 6. Now the layout needs to be specified in the following format:
+ 
+https://github.com/mohoaz1348-rgb/layout_bigrams_analyzer/blob/main/ANSI/en/layouts/grawerty
+
 ## How ABA Works
 
 Now I'll explain how all the bigrams of a language are analyzed for the layout. I use a standard keyboard for typing, so I'll use that as an example. The left and right hand keys are numbered sequentially. Then, for each key combination on one hand, I build a preference matrix (they are different for standard mode and Angle Mod)
@@ -42,7 +82,7 @@ The mode in which the layout was analyzed is indicated in parentheses after the 
 - sfb(1u)(index, middle, ring) - `-1`
 - sfb(2u)(pinky) - `-3`
 - sfb(2u)(index, middle, ring) - `-2`
-- **rolls(pinky, middle) - `-2`, `-3`**
+- **rolls(pinky, middle) - `-1`, `-2`**
 - lsb - `0`, `-1`
 
 I don't demonize SFB (except for pinkies) and I don't think they are the most awkward combinations.
