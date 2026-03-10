@@ -13,6 +13,13 @@ When choosing a layout, I proceed as follows: first, I select layouts that meet 
 
 I run the remaining layouts through my analyzer, which creates a comparison table. Since comfort is important to me, I choose the layouts with the fewest awkward combinations. If there are several such layouts, I look at the comfortable combinations and choose the one with the most.
 
+## What's new in version 2.0
+
+1. Added classification of bigrams by their type (PRS, SFB, LSB, etc.).
+Here's a comparison table of layouts by bigram type:
+
+
+
 ## How ABA Works
 
 Now I'll explain how all the bigrams of a language are analyzed for the layout. I use a standard keyboard for typing, so I'll use that as an example. The left and right hand keys are numbered sequentially. Then, for each key combination on one hand, I build a preference matrix (they are different for standard mode and Angle Mod)
